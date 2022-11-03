@@ -8,10 +8,12 @@ const BookCreate = () => {
     // ? const [bookTitle, setBookTitle] = useState('Test libro 1')
     const [bookTitle, setBookTitle] = useState('')
     const [errors, setErrors] = useState([])
+    const [submitting, setSubmitting] = useState(false)
 
     async function handleSubmit(e) {
         e.preventDefault()
         // ? console.log(bookTitle);
+        setSubmitting(true)
         
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books`, {
             method: 'POST',
@@ -30,22 +32,23 @@ const BookCreate = () => {
             setBookTitle('')
             return router.push('/libros')
         }
-        
+
         // Failure
         const data = await res.json()
         setErrors(data.errors)
-
+        setSubmitting(false);
     }
 
     // ? Debo retornar un solo elemento, en el caso de no querer encerrarlo en un div podemos utilizar <> de react
     return (
         <>
-            <h1>BookCreate</h1>
+            <h1>Book Create</h1>
             <form onSubmit={handleSubmit}>
                 <input onChange={(e) => setBookTitle(e.target.value)} 
                         type="text"
-                        value={bookTitle}/>
-                <button>Enviar</button>
+                        value={bookTitle}
+                        disabled={submitting}/>
+                <button disabled={submitting}>{submitting ? 'Enviando...' : 'Enviar'}</button>
                 { errors.title && (
                     <span style={{color: 'red', display: 'block'}}>{errors.title}</span>
                 ) }
