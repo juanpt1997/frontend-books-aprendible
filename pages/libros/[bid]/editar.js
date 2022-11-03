@@ -58,9 +58,14 @@ const BookEdit = ({ book }) => {
             <form onSubmit={handleSubmit}>
                 <input onChange={(e) => setBookTitle(e.target.value)}
                     type="text"
+                    data-cy="input-book-title"
                     value={bookTitle}
                     disabled={submitting} />
-                <button disabled={submitting}>{submitting ? 'Enviando...' : 'Enviar'}</button>
+                <button 
+                    data-cy="button-submit-book"
+                    disabled={submitting}>
+                        {submitting ? 'Enviando...' : 'Enviar'}
+                </button>
                 {errors.title && (
                     <span style={{ color: 'red', display: 'block' }}>{errors.title}</span>
                 )}

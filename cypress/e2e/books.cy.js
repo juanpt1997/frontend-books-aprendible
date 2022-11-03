@@ -22,5 +22,17 @@ describe('Books', () => {
             .should('contains.text', 'New book from Cypress')
             .get('[href="/libros"]')
             .click()
+
+        // Edit
+        cy.get('[data-cy^=link-to-edit-book-]')
+            .last()
+            .click()
+            .get('[data-cy=input-book-title]')
+            .clear()
+            .type('Book edited by Cypress')
+            .get('[data-cy="button-submit-book"]')
+            .click()
+            .get('[data-cy=book-list]')
+            .contains('Book edited by Cypress')
     })
 })
