@@ -3,14 +3,29 @@ import { useState } from "react"
 const BookCreate = () => {
 
     // const state = useState()
-    // ? const [bookName, setBookName] = useState('Test libro 1')
-    const [bookName, setBookName] = useState('')
+    // ? const [bookTitle, setBookTitle] = useState('Test libro 1')
+    const [bookTitle, setBookTitle] = useState('')
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
-        console.log(bookName);
+        // ? console.log(bookTitle);
         
-        // fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books`, {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: bookTitle
+            })
+        })
+
+        if (res.ok){
+            // Success
+        }else{
+            // Failure
+        }
 
     }
 
@@ -19,9 +34,9 @@ const BookCreate = () => {
         <>
             <h1>BookCreate</h1>
             <form onSubmit={handleSubmit}>
-                <input onChange={(e) => setBookName(e.target.value)} 
+                <input onChange={(e) => setBookTitle(e.target.value)} 
                         type="text"
-                        value={bookName}/>
+                        value={bookTitle}/>
                 <button>Enviar</button>
             </form>
             <br/>
@@ -29,7 +44,7 @@ const BookCreate = () => {
         </>
     )
 
-    // ? Cuando el input text reciba un cambio queremos llamar a la función setBookName para setear el valor de la variable bookName y cuando le demos enviar capturemos el valor
+    // ? Cuando el input text reciba un cambio queremos llamar a la función setBookTitle para setear el valor de la variable bookTitle y cuando le demos enviar capturemos el valor
     // ? Esto maneja two way data binding
     // ? por lo tanto agregamos un value con el book name para que se actualice también en el otro sentido
 }
