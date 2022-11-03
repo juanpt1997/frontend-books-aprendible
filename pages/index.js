@@ -12,7 +12,7 @@ export default function Home() {
             </Head>
 
             <h1>Books App</h1>
-            
+            <Link href="/libros">Book List</Link>
         </div>
     )
 }
