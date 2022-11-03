@@ -34,5 +34,12 @@ describe('Books', () => {
             .click()
             .get('[data-cy=book-list]')
             .contains('Book edited by Cypress')
+
+        // Delete
+        cy.get('[data-cy^=link-to-delete-book-]')
+            .last()
+            .click()
+            .get('[data-cy^=link-to-visit-book-]')
+            .last().should('not.contain.text', 'Book edited by Cypress')
     })
 })

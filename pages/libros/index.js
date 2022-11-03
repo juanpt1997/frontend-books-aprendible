@@ -51,7 +51,9 @@ const BookList = ({ books }) => {
                         </Link>
                         {' - '}
                         <form onSubmit={(e) => handleDelete(e, book.id)} style={{ display: 'inline' }}>
-                            <button>Eliminar</button>
+                            <button data-cy={`link-to-delete-book-${book.id}`}>
+                                Eliminar
+                            </button>
                         </form>
                     </li>
                 ))}
