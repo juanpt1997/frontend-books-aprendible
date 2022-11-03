@@ -36,7 +36,7 @@ const BookList = ({ books }) => {
     return (
         <div>
             <h1>Libros</h1>
-            <ul>
+            <ul data-cy="book-list">
                 {books.map(book => (
                     <li key={`book-${book.id}`}>
                         <Link href={`/libros/${book.id}`}>{book.title}</Link>

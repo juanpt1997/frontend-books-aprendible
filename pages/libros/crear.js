@@ -14,7 +14,7 @@ const BookCreate = () => {
         e.preventDefault()
         // ? console.log(bookTitle);
         setSubmitting(true)
-        
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books`, {
             method: 'POST',
             headers: {
@@ -26,7 +26,7 @@ const BookCreate = () => {
             })
         })
 
-        if (res.ok){
+        if (res.ok) {
             // Success
             setErrors([])
             setBookTitle('')
@@ -44,16 +44,24 @@ const BookCreate = () => {
         <>
             <h1>Book Create</h1>
             <form onSubmit={handleSubmit}>
-                <input onChange={(e) => setBookTitle(e.target.value)} 
-                        type="text"
-                        value={bookTitle}
-                        disabled={submitting}/>
-                <button disabled={submitting}>{submitting ? 'Enviando...' : 'Enviar'}</button>
-                { errors.title && (
-                    <span style={{color: 'red', display: 'block'}}>{errors.title}</span>
-                ) }
+                <input onChange={(e) => setBookTitle(e.target.value)}
+                    type="text"
+                    data-cy="input-book-title"
+                    value={bookTitle}
+                    disabled={submitting} />
+
+                <button
+                    disabled={submitting}
+                    data-cy="button-submit-book"
+                >
+                    {submitting ? 'Enviando...' : 'Enviar'}
+                </button>
+
+                {errors.title && (
+                    <span style={{ color: 'red', display: 'block' }}>{errors.title}</span>
+                )}
             </form>
-            <br/>
+            <br />
             <Link href="/libros">Book List</Link>
         </>
     )
