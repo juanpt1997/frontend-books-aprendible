@@ -13,6 +13,14 @@ describe('Books', () => {
             .get('[data-cy=book-list]')
             .contains('New book from Cypress')
         
-        //
+        // Show book
+        // ? ^ sirve para indicar que quiero todos los elementos cuyos data cy comiencen por link-to-visit-book- seguido de cualquier cosa
+        cy.get('[data-cy^=link-to-visit-book-]')
+            .last()
+            .click()
+            .get('h1')
+            .should('contains.text', 'New book from Cypress')
+            .get('[href="/libros"]')
+            .click()
     })
 })
