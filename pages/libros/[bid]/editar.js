@@ -2,34 +2,43 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
+// ? Se ejecuta del lado del servidor en cada petición
+export async function getServerSideProps({ params }) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books/${params.bid}`)
 
+    const data = await res.json()
 
-const BookEdit = () => {
+    return {
+        props: {
+            book: data
+        }
+    }
+}
+
+const BookEdit = ({ book }) => {
     const router = useRouter();
 
-    // const state = useState()
-    // ? const [bookTitle, setBookTitle] = useState('Test libro 1')
-    const [bookTitle, setBookTitle] = useState('')
+    const [bookTitle, setBookTitle] = useState(book.title)
     const [errors, setErrors] = useState([])
     const [submitting, setSubmitting] = useState(false)
 
     async function handleSubmit(e) {
         e.preventDefault()
-        // ? console.log(bookTitle);
         setSubmitting(true)
-        
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books`, {
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/books/${book.id}`, {
             method: 'POST',
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
-                title: bookTitle
+                title: bookTitle,
+                _method: 'PATCH'
             })
         })
 
-        if (res.ok){
+        if (res.ok) {
             // Success
             setErrors([])
             setBookTitle('')
@@ -47,16 +56,16 @@ const BookEdit = () => {
         <>
             <h1>Book Edit</h1>
             <form onSubmit={handleSubmit}>
-                <input onChange={(e) => setBookTitle(e.target.value)} 
-                        type="text"
-                        value={bookTitle}
-                        disabled={submitting}/>
+                <input onChange={(e) => setBookTitle(e.target.value)}
+                    type="text"
+                    value={bookTitle}
+                    disabled={submitting} />
                 <button disabled={submitting}>{submitting ? 'Enviando...' : 'Enviar'}</button>
-                { errors.title && (
-                    <span style={{color: 'red', display: 'block'}}>{errors.title}</span>
-                ) }
+                {errors.title && (
+                    <span style={{ color: 'red', display: 'block' }}>{errors.title}</span>
+                )}
             </form>
-            <br/>
+            <br />
             <Link href="/libros">Book List</Link>
         </>
     )

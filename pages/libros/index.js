@@ -21,6 +21,8 @@ const BookList = ({ books }) => {
                 {books.map(book => (
                     <li key={`book-${book.id}`}>
                         <Link href={`/libros/${book.id}`}>{book.title}</Link>
+                        {' - '}
+                        <Link href={`/libros/${book.id}/editar`}>Editar</Link>
                     </li>
                 ))}
             </ul>
